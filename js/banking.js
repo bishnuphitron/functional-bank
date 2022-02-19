@@ -1,10 +1,10 @@
-function getInputValue() {
-  const depositInput = document.getElementById('deposit-input');
-  const depositAmountText = depositInput.value;
-  const depositAmount = parseFloat(depositAmountText);
-  // clear deposit field
-  depositInput.value = '';
-  return depositAmount;
+function getInputValue(inputId) {
+  const inputField = document.getElementById(inputId);
+  const inputAmountText = inputField.value;
+  const amountValue = parseFloat(inputAmountText);
+  // clear input field
+  inputField.value = '';
+  return amountValue;
 }
 
 document.getElementById('deposit-btn').addEventListener
@@ -12,7 +12,7 @@ document.getElementById('deposit-btn').addEventListener
   /* const depositInput = document.getElementById('deposit-input');
   const depositAmountText = depositInput.value;
   const depositAmount = parseFloat(depositAmountText); */
-  const depositAmount = getInputValue();
+  const depositAmount = getInputValue('deposit-input');
 
   // get and update deposit total
   const depositTotal = document.getElementById('deposit-total');
@@ -27,16 +27,14 @@ document.getElementById('deposit-btn').addEventListener
   const previousBalanceTotal = parseFloat(balanceTotalText);
   balanceTotal.innerText = previousBalanceTotal + depositAmount;
   
-  // clear deposit field
+  // clear deposit input field
   // depositInput.value = '';
 });
 
 // handle withdraw button 
 document.getElementById('withdraw-btn').addEventListener
 ('click', function () {
-  const withdrawInput = document.getElementById('withdraw-input');
-  const withdrawAmountText = withdrawInput.value;
-  const withdrawAmount = parseFloat(withdrawAmountText);
+  const withdrawAmount = getInputValue('withdraw-input');
   
   // get and update withdraw total
   const withdrawTotal = document.getElementById('withdraw-total');
@@ -50,7 +48,4 @@ document.getElementById('withdraw-btn').addEventListener
   const previousBalanceTotal = parseFloat(balanceTotalText);
 
   balanceTotal.innerText = previousBalanceTotal - withdrawAmount;
-
-  // clear deposit field
-  withdrawInput.value = '';  
 });
