@@ -1,4 +1,5 @@
 function getInputValue(inputId) {
+  // debugger;
   const inputField = document.getElementById(inputId);
   const inputAmountText = inputField.value;
   const amountValue = parseFloat(inputAmountText);
@@ -15,10 +16,19 @@ function updateTotalField(totalFieldId, amount) {
   totalElement.innerText = previousTotal + amount;
 }
 
-function updateBalance(depositAmount, isAdd) {
+function getCurrentBalance() {
   const balanceTotal = document.getElementById('balance-total');
   const balanceTotalText = balanceTotal.innerText;
   const previousBalanceTotal = parseFloat(balanceTotalText);
+  return previousBalanceTotal;
+}
+
+function updateBalance(depositAmount, isAdd) {
+  const balanceTotal = document.getElementById('balance-total');
+  /* 
+  const balanceTotalText = balanceTotal.innerText;
+  const previousBalanceTotal = parseFloat(balanceTotalText); */
+  const previousBalanceTotal = getCurrentBalance();
   if (isAdd == true) {
     balanceTotal.innerText = previousBalanceTotal + depositAmount;
   }
@@ -53,8 +63,10 @@ document.getElementById('deposit-btn').addEventListener
   */
 
   const depositAmount = getInputValue('deposit-input');
-  updateTotalField('deposit-total', depositAmount);
-  updateBalance(depositAmount, true);
+  if (depositAmount > 0) {
+    updateTotalField('deposit-total', depositAmount);
+    updateBalance(depositAmount, true);
+  }
 });
 
 
@@ -77,6 +89,12 @@ document.getElementById('withdraw-btn').addEventListener
   balanceTotal.innerText = previousBalanceTotal - withdrawAmount; */
 
   const withdrawAmount = getInputValue('withdraw-input');
-  updateTotalField('withdraw-total', withdrawAmount);
-  updateBalance(withdrawAmount, false);
+  const currentBalance = getCurrentBalance();
+  if (withdrawAmount > 0 && withdrawAmount <= currentBalance) {
+    updateTotalField('withdraw-total', withdrawAmount);
+    updateBalance(withdrawAmount, false);
+  }
+  if (withdrawAmount > currentBalance) {
+    console.log('You can not withdraw more than what you have in your account.');
+  }
 });
